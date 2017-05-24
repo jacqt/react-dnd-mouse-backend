@@ -182,6 +182,7 @@ export default class MouseBackend {
 
   handleWindowMoveEndCapture (e) {
     if (!this.monitor.isDragging() || this.monitor.didDrop()) {
+      this.mouseClientOffset = {}
       this.moveStartSourceIds = null
       return
     }
