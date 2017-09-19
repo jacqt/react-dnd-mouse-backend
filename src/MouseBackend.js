@@ -135,17 +135,19 @@ export default class MouseBackend {
     }
   }
 
+  somewhatDifferent(offset1, offset2) {
+    const dist = Math.pow(offset1.x - offset2.x, 2) + Math.pow(offset1.y - offset2.y, 2)
+    return dist > 4
+  }
+
   handleWindowMoveCapture (e) {
     const { moveStartSourceIds } = this
     const clientOffset = getEventClientOffset(e)
     if (!clientOffset)
       return
     if (!this.monitor.isDragging()
-      && this.mouseClientOffset.hasOwnProperty('x') && moveStartSourceIds &&
-    (
-      this.mouseClientOffset.x !== clientOffset.x ||
-      this.mouseClientOffset.y !== clientOffset.y
-    )) {
+      && this.mouseClientOffset.hasOwnProperty('x') && moveStartSourceIds
+      && this.somewhatDifferent(this.mouseClientOffset, clientOffset)) {
       this.moveStartSourceIds = null
       this.actions.beginDrag(moveStartSourceIds, {
         clientOffset: this.mouseClientOffset,
